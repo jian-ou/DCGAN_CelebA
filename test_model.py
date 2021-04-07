@@ -24,7 +24,7 @@ import progress
 import save_load_model
 
 SHOW_SIZE_BIG = True
-epoch = 73
+epoch = 123
 
 def run():
     model = save_load_model.load_model('./data/generator.h5')
