@@ -20,20 +20,20 @@ import load_image
 from load_image import load_train_data
 import DCGAN_discriminator
 import DCGAN_generator
-import print_progress
+import progress
 import save_load_model
 
-SHOW_SIZE_BIG = False
-epoch = 70
+SHOW_SIZE_BIG = True
+epoch = 73
 
 def run():
     model = save_load_model.load_model('./data/generator.h5')
-    noise = tf.random.normal([9, 100]) / 3.
+    noise = tf.random.normal([25, 100]) / 3.
     #print(np.max(noise), np.min(noise))
     output_images = model(noise)
     if SHOW_SIZE_BIG == True:
-        for i in range(9):
-            ax = plt.subplot(3, 3, i + 1)
+        for i in range(25):
+            ax = plt.subplot(5, 5, i + 1)
             image = (output_images[i] + 1) / 2
             #print(image)
             #print(np.max(image), np.min(image))
@@ -43,7 +43,7 @@ def run():
         image = (output_images[5] + 1) / 2
         plt.imshow(image)
         plt.axis("off")
-        plt.savefig('./data/image/test{:04d}.png'. format(epoch))
+    plt.savefig('./data/image/test{:04d}.png'. format(epoch))
     plt.show()
 
 if __name__ == "__main__":

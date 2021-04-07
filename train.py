@@ -20,7 +20,7 @@ import load_image
 from load_image import load_train_data
 import DCGAN_discriminator
 import DCGAN_generator
-import print_progress
+import progress
 import save_load_model
 
 #训练参数
@@ -51,7 +51,7 @@ def train_step(images):
 
 
 #加载数据
-train_dataset, epoch_size = load_train_data(batch_size=BATCH_SIZE)
+train_dataset, epoch_size = load_train_data(batch_size=BATCH_SIZE, validation = 0.01)
 #创建模型
 generator = DCGAN_generator.generator_DCGAN_model()
 discriminator = DCGAN_discriminator.discriminator_DCGAN_model()
@@ -78,7 +78,7 @@ def train(dataset, epochs):
 
         for image_batch,_ in dataset:
             train_step(image_batch)
-            real = print_progress.print_progress_batch(epoch+1, batch_i, epoch_size, real)
+            real = progress.print_progress_batch(epoch+1, batch_i, epoch_size, real)
             batch_i = batch_i + 1
 
     # 每 SAVE_TIME 个 epoch 保存一次模型
@@ -87,6 +87,7 @@ def train(dataset, epochs):
             save_load_model.save_model(discriminator, './data/discriminator.h5')
 
         print ('\rTime for epoch {} is {} sec                                                                               '.format(epoch + 1, time.time()-start))
+        progress.save_time(time.time()-start)
 
 if LOAD_MODEL == True:
     generator = save_load_model.load_model('./data/generator.h5')
